@@ -56,17 +56,3 @@ def get_multiple_banks_tweets_search_api(banks_list, num_tweets, path_to_save_cs
     print("CSV file saved in path!")
     
     return all_banks_tweets
-
-def create_raw_dataset(path_to_search_files, starts_with_filename, path_to_save_csv):
-    df_tweets = pd.DataFrame()
-    list_files = os.listdir(path_to_search_files)
-    for file in list_files:
-        if file.startswith(starts_with_filename):
-            df = pd.read_csv(os.path.join(path_to_search_files, file), sep = ";")
-            df_tweets = pd.concat([df_tweets,df])
-        
-    df_tweets = df_tweets[["id","created_at","bank","text"]].drop_duplicates().reset_index(drop = True)
-    df_tweets.columns = ["tweet_id","tweet_created_at","bank","tweet_original_text"]
-    df_tweets.to_csv(path_to_save_csv, sep = ";", header = True, index = False)
-    print("CSV file saved in path!")
-    return df_tweets
